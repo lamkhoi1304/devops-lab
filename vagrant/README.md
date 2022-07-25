@@ -28,3 +28,12 @@ vagrant up
 ssh ci@192.168.56.11
 ssh ci@192.168.56.12
 ```
+
+## Vagrant Cheat Sheet
+- `vagrant up` -- starts vagrant
+- `vagrant ssh <boxname>` -- connects to machine via SSH
+- `vagrant halt` -- stops the vagrant machine
+- `vagrant destroy` -- stops and deletes all traces of the vagrant machine
+- `vagrant -v` -- get the vagrant version
+- `vagrant status` -- outputs status of the vagrant machine
+- `vagrant global-status` -- outputs status of all vagrant machines
