@@ -24,6 +24,7 @@ vagrant up
 ssh ci@192.168.56.11
 
 cd devops-lab/vagrant/multiVM
+vagrant up
 ssh ci@192.168.56.11
 ssh ci@192.168.56.12
 ```
