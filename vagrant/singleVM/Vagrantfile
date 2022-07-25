@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+    # VM image
+    config.vm.box = "generic/ubuntu2004"
+    config.vm.box_version = "3.6.8"
+    config.vm.hostname = "virtualbox-guest-vm"
+
+    # VM network
+    config.vm.network "private_network", ip: "192.168.56.11"
+
+    # VM CPU & Memort
+    config.vm.provider "virtualbox" do |vb|
+        vb.name = "virtualbox-guest-vm"
+        vb.memory = 1024
+        vb.cpus = 1
+    end
+
+    # VM File Copy
+    config.vm.provision "file", source: "file.txt", destination: "/home/vagrant/file.txt"
+
+    # vM Shared Folder
+    config.vm.synced_folder "./data", "/home/vagrant/data"
+
+    # Shell script
+    # create user CI and copy ssh public key to user CI
+    config.vm.provision "shell" do |s|
+        ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+        s.inline = <<-SHELL
+            useradd -s /bin/bash -d /home/ci/ -m -G sudo ci
+            echo 'ci ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+            mkdir -p /home/ci/.ssh && chown -R ci /home/ci/.ssh
+            echo #{ssh_pub_key} >> /home/ci/.ssh/authorized_keys
+        SHELL
+    end
+end
