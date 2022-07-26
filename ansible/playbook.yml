@@ -1,0 +1,49 @@
+---
+
+- hosts: all
+  name: Install Docker
+  remote_user: ci
+  become: yes
+  tasks:
+    # https://docs.docker.com/engine/install/ubuntu/#installation-methods
+    - name: Update the apt package index and install packages to allow apt to use a repository over HTTPS
+      apt:
+        name:
+          - ca-certificates
+          - gnupg
+          - lsb-release
+        update_cache: yes
+
+    - name: Add Docker's official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Get Ubuntu release version
+      shell: lsb_release -cs
+      register: ubuntu_version
+
+    - name: Get architecture
+      shell: dpkg --print-architecture
+      register: architecture
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch={{ architecture.stdout }}] https://download.docker.com/linux/ubuntu {{ ubuntu_version.stdout }} stable"
+        state: present
+
+    - name: Install Docker engine
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        update_cache: yes
+
+    - name: Add user CI to Docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      become: yes
