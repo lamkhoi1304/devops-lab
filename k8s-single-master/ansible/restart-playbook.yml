@@ -1,0 +1,19 @@
+---
+
+- hosts: masters, workers
+  name: restart docker and kubelet service
+  remote_user: ci
+  become: true
+  tasks: 
+    - name: Restart Docker
+      systemd:
+        name: docker
+        state: restarted
+        enabled: yes
+        daemon-reload: yes
+
+    - name: Restart kubelet service
+      service:
+        name: kubelet
+        daemon-reload: yes
+        state: restarted

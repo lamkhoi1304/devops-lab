@@ -3,7 +3,7 @@
 - hosts: all
   name: Install Docker
   remote_user: ci
-  become: yes
+  become: true
   tasks:
     # https://docs.docker.com/engine/install/ubuntu/#installation-methods
     - name: Update the apt package index and install packages to allow apt to use a repository over HTTPS
@@ -46,4 +46,3 @@
         name: "{{ ansible_user }}"
         groups: docker
         append: yes
-      become: yes

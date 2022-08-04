@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+  app:
+    image: lamkhoi1304/hello-cm
+    ports:
+      - "8888:8888"
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - postgres

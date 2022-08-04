@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-redis
+spec:
+  containers:
+    - image: lamkhoi1304/hello-redis-kube
+      name: hello-redis

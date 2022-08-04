@@ -1,0 +1,47 @@
+apiVersion: v1      # Descriptor conforms to version v1 of Kubernetes API
+kind: Pod           # Select Pod resource
+metadata:
+  name: hello-kube-testing  # The name of the pod
+  labels:
+    environment: testing
+    project: kube-study
+  namespace: testing        # namespace name
+spec:
+  containers:
+    - image: lamkhoi1304/hello-kube     # Image to create the container
+      name: hello-kube                  # The name of the container
+      ports:
+        - containerPort: 3000           # The port the app is listening on 
+          protocol: TCP
+
+---
+apiVersion: v1      # Descriptor conforms to version v1 of Kubernetes API
+kind: Pod           # Select Pod resource
+metadata:
+  name: hello-kube-staging  # The name of the pod
+  labels:
+    environment: staging
+    project: kube-study
+spec:
+  containers:
+    - image: lamkhoi1304/hello-kube     # Image to create the container
+      name: hello-kube                  # The name of the container
+      ports:
+        - containerPort: 3000           # The port the app is listening on 
+          protocol: TCP
+
+---
+apiVersion: v1      # Descriptor conforms to version v1 of Kubernetes API
+kind: Pod           # Select Pod resource
+metadata:
+  name: hello-kube-production  # The name of the pod
+  labels:
+    environment: production
+    project: kube-study
+spec:
+  containers:
+    - image: lamkhoi1304/hello-kube     # Image to create the container
+      name: hello-kube                  # The name of the container
+      ports:
+        - containerPort: 3000           # The port the app is listening on 
+          protocol: TCP
